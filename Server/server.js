@@ -44,10 +44,13 @@ var id = 6;
 
 app.use(express.json());
 
+
+
+
+
+
 app.use(express.static("../Client"));
-app.use("../Client/Pages/MedicinePage.html", function (request, reqsponse) {
-    express.static("../Client/Pages/")
-});
+
 
 
 

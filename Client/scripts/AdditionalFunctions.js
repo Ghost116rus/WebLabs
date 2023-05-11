@@ -6,7 +6,7 @@ export const makeContent = (Container, medicine) => {
         let offer = $('<div/>', {
             class:  'offer',
         }).appendTo(Container);
-        let image = $('<a/>').attr("href", "MedicinePage.html/" + medic.id).appendTo(offer);
+        let image = $('<a/>').attr("href", "/Pages/MedicinePage.html?" + medic.id).appendTo(offer);
         let medicineImage = $('<img>', {
             src: medic.imageSrc
         });
