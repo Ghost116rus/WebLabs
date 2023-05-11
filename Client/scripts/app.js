@@ -1,56 +1,19 @@
 class Medicine{
+    id;
     description;
     imageSrc;
     tags = [];
-    constructor(description, imageSrc, tags){
+    constructor(id, description, imageSrc, tags){
+        this.id = id;
         this.description = description;
         this.imageSrc = imageSrc;
         this.tags = tags;
     }
 }
 
-/*
-var Special = [
-    new Medicine("СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100","../img/medecine/1.jpg", ["Акция", "Для взрослых"]),
-    new Medicine("СофтЛайф премиум ватные диски прямоугольные черные №80","../img/medecine/2.jpg", ["Акция", "Для взрослых"]),
-    new Medicine("Будь Здоров! Рыбный жир 75мл","../img/medecine/3.jpg", ["Для взрослых", "Противопростутдные"]),
-    new Medicine("Будь Здоров! Грин фиточай Фитосбор №1 толокнянка ф/п 2г №20","../img/medecine/4.jpg", ["Для взрослых", "Противопростутдные"]),
-    new Medicine("АВС хэлси фуд клетчатка Сибирская стопаппетит 8,5г №14","../img/medecine/5.jpg", ["Для детей", "Противовирусные"])
-];
-
-var Medicines =
-    [
-        new Medicine("СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100","../img/medecine/1.jpg", ["Акция", "Для взрослых"]),
-        new Medicine("СофтЛайф премиум ватные диски прямоугольные черные №80","../img/medecine/2.jpg", ["Акция", "Для взрослых"]),
-        new Medicine("Будь Здоров! Рыбный жир 75мл","../img/medecine/3.jpg", ["Для взрослых", "Противопростутдные"]),
-        new Medicine("Будь Здоров! Грин фиточай Фитосбор №1 толокнянка ф/п 2г №20","../img/medecine/4.jpg", ["Для взрослых", "Противопростутдные"]),
-        new Medicine("АВС хэлси фуд клетчатка Сибирская стопаппетит 8,5г №14","../img/medecine/5.jpg", ["Для детей", "Противовирусные"]),
-        new Medicine("Инвитро Здоровье щитовидной железы","https://cdn.budzdorov.ru/media/catalog/product/cache/1e8ef93b9b4867ab9f3538dde2cb3b8a/1/1/113044-c-0-8-9-c089a3e77f904efd2884c5ab3cdad57d3b9ebc0b_113044.jpg", ["Для взрослых", "Противовирусные", "Противопростутдные"]),
-
-        new Medicine("СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100","../img/medecine/1.jpg", ["Акция", "Для взрослых"]),
-        new Medicine("СофтЛайф премиум ватные диски прямоугольные черные №80","../img/medecine/2.jpg", ["Акция", "Для взрослых"]),
-        new Medicine("Будь Здоров! Рыбный жир 75мл","../img/medecine/3.jpg", ["Для взрослых", "Противопростутдные"]),
-        new Medicine("Будь Здоров! Грин фиточай Фитосбор №1 толокнянка ф/п 2г №20","../img/medecine/4.jpg", ["Для взрослых", "Противопростутдные"]),
-        new Medicine("АВС хэлси фуд клетчатка Сибирская стопаппетит 8,5г №14","../img/medecine/5.jpg", ["Для детей", "Противовирусные"]),
-        new Medicine("Инвитро Здоровье щитовидной железы","https://cdn.budzdorov.ru/media/catalog/product/cache/1e8ef93b9b4867ab9f3538dde2cb3b8a/1/1/113044-c-0-8-9-c089a3e77f904efd2884c5ab3cdad57d3b9ebc0b_113044.jpg", ["Для взрослых", "Противовирусные", "Противопростутдные"]),
-
-        new Medicine("СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100","../img/medecine/1.jpg", ["Акция", "Для взрослых"]),
-        new Medicine("СофтЛайф премиум ватные диски прямоугольные черные №80","../img/medecine/2.jpg", ["Акция", "Для взрослых"]),
-        new Medicine("Будь Здоров! Рыбный жир 75мл","../img/medecine/3.jpg", ["Для взрослых", "Противопростутдные"]),
-        new Medicine("Будь Здоров! Грин фиточай Фитосбор №1 толокнянка ф/п 2г №20","../img/medecine/4.jpg", ["Для взрослых", "Противопростутдные"]),
-        new Medicine("АВС хэлси фуд клетчатка Сибирская стопаппетит 8,5г №14","../img/medecine/5.jpg", ["Для детей", "Противовирусные"]),
-        new Medicine("Инвитро Здоровье щитовидной железы","https://cdn.budzdorov.ru/media/catalog/product/cache/1e8ef93b9b4867ab9f3538dde2cb3b8a/1/1/113044-c-0-8-9-c089a3e77f904efd2884c5ab3cdad57d3b9ebc0b_113044.jpg", ["Для взрослых", "Противовирусные", "Противопростутдные"]),
-
-    ];
-
-var tags =
-    [
-        "Для детей",
-        "Для взрослых",
-        "Противовирусные",
-        "Противопростутдные"
-    ]*/
-
+var Special = [];
+var Medicines = [];
+var tags = [];
 
 var makeContent = function(Container, medicine) {
     var offers = $('<div/>', {
@@ -90,7 +53,7 @@ class AddContent{
         AddContent.special = !AddContent.special;
     }
 
-    static AddToContent()
+    static async AddToContent()
     {
         AddContent.medicineDescription = document.getElementById('description').value;
         AddContent.srcImage = document.getElementById('imgSrc').value;
@@ -98,11 +61,23 @@ class AddContent{
         console.log(AddContent.special);
         console.log(AddContent.medicineDescription);
         console.log(AddContent.srcImage);
+        // создаем новый элемент списка задач
+        var newMedicine = {"description": AddContent.medicineDescription, "img":AddContent.srcImage, "isSpecial": AddContent.special};
 
-        var medicine = new Medicine(AddContent.medicineDescription, AddContent.srcImage)
+        var res = await (await fetch("http://localhost:3000/todos", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(newMedicine)
+            }
+        )).json()
 
-        if (AddContent.special) { Special.push(medicine);}
+        var medicine = new Medicine(res.id, AddContent.medicineDescription, AddContent.srcImage, []);
         Medicines.push(medicine);
+
+        if (AddContent.special)
+        {
+            Special.push(medicine);
+        }
 
         AddContent.special = false;
         AddContent.srcImage = "";
@@ -118,12 +93,9 @@ class AddContent{
 var main = function (HealthObjects) {
     "use strict";
 
-    var Special = [];
-    var Medicines = [];
-    var tags = [];
 
     HealthObjects.forEach((e) => {
-        var medicine = new Medicine(e.description, e.img, e.tags);
+        var medicine = new Medicine(e.id, e.description, e.img, e.tags);
         Medicines.push(medicine);
 
         e.tags.forEach((tag) => {
@@ -244,8 +216,9 @@ var main = function (HealthObjects) {
 };
 
 $(document).ready(() => {
-    $.getJSON("../data/Medicine.json", function (HealthObjects) {
+    $.getJSON("http://localhost:3000/getMedicine", function (HealthObjects) {
     // вызов функции main с аргументом в виде объекта toDoObjects
+        console.log(HealthObjects)
         main(HealthObjects);
     });
 });
