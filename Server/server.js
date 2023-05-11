@@ -1,7 +1,8 @@
-var express = require("express"),
-    http = require("http"),
-    app = express(),
-    medicines = [
+import express, {response} from 'express';
+
+const app = express();
+
+let medicines = [
         {
             "id": 1,
             "description" : "СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100",
@@ -44,7 +45,11 @@ var id = 6;
 app.use(express.json());
 
 app.use(express.static("../Client"));
-http.createServer(app).listen(3000);
+app.use("../Client/Pages/MedicinePage.html", function (request, reqsponse) {
+    express.static("../Client/Pages/")
+});
+
+
 
 // этот маршрут замещает наш файл
 // todos.json в примере из части 5
@@ -52,7 +57,6 @@ app.get("/getMedicine", function (req, res) {
     //console.log("Привет мир")
     res.json(medicines);
 });
-
 
 app.post("/todos", function (req, res) {
 // сейчас объект сохраняется в req.body
@@ -75,3 +79,11 @@ app.post("/todos", function (req, res) {
     res.json({"message":"Вы размещаетесь на сервере!", "id": id});
 });
 
+
+app.listen(3000, (err) => {
+    if (err) {
+        return console.log(err);
+    }
+
+    console.log('Server OK');
+});

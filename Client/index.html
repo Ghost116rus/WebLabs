@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <link rel="stylesheet" href="stylesheets/main.css">
     <title>Title</title>
     <script defer src="scripts/jquery-3.6.4.js"></script>
-    <script defer type="text/javascript" src="scripts/jquery.lazy.js"></script>
-    <script defer src="scripts/mainPage.js"></script>
+    <script type="module" src="scripts/app.js"></script>
 </head>
 
 
@@ -25,92 +25,25 @@
 
     <main>
         <div style="display: flex; justify-content: center; padding-top: 25px">
-            <img class="lazy" data-src="https://cdn.budzdorov.ru/media/tj_banner/images/63f46a54b4dad8.04127500.jpg">
+            <img src="https://cdn.budzdorov.ru/media/tj_banner/images/63f46a54b4dad8.04127500.jpg">
         </div>
         <div style="margin-left: 15%">
             <h2>Специальные предложения</h2>
         </div>
-        <div class="offers">
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/1.jpg"></a>
-                <a href="#">СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/2.jpg"></a>
-                <a href="#">СофтЛайф премиум ватные диски прямоугольные черные №80</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/3.jpg"></a>
-                <a href="#">Будь Здоров! Рыбный жир 75мл</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/4.jpg"></a>
-                <a href="#">Будь Здоров! Грин фиточай Фитосбор №1 толокнянка ф/п 2г №20</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/5.jpg"></a>
-                <a href="#">АВС хэлси фуд клетчатка Сибирская стопаппетит 8,5г №14</a>
-            </div>
+        <div class="offers" id="special">
+
         </div>
 
         <div style="margin-left: 15%">
             <h2>Каталог товаров</h2>
         </div>
-        <div class="offers">
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/1.jpg"></a>
-                <a href="#">СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/2.jpg"></a>
-                <a href="#">СофтЛайф премиум ватные диски прямоугольные черные №80</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/3.jpg"></a>
-                <a href="#">Будь Здоров! Рыбный жир 75мл</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/4.jpg"></a>
-                <a href="#">Будь Здоров! Грин фиточай Фитосбор №1 толокнянка ф/п 2г №20</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/5.jpg"></a>
-                <a href="#">АВС хэлси фуд клетчатка Сибирская стопаппетит 8,5г №14</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="https://cdn.budzdorov.ru/media/catalog/product/cache/1e8ef93b9b4867ab9f3538dde2cb3b8a/1/1/113044-c-0-8-9-c089a3e77f904efd2884c5ab3cdad57d3b9ebc0b_113044.jpg"></a>
-                <a href="#">Инвитро Здоровье щитовидной железы</a>
-            </div>
+        <div class="offers" id="catalog">
 
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/1.jpg"></a>
-                <a href="#">СофтЛайф премиум ватные палочки на бумажной основе с добавлением бамбука №100</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/2.jpg"></a>
-                <a href="#">СофтЛайф премиум ватные диски прямоугольные черные №80</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/3.jpg"></a>
-                <a href="#">Будь Здоров! Рыбный жир 75мл</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/4.jpg"></a>
-                <a href="#">Будь Здоров! Грин фиточай Фитосбор №1 толокнянка ф/п 2г №20</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="../img/medecine/5.jpg"></a>
-                <a href="#">АВС хэлси фуд клетчатка Сибирская стопаппетит 8,5г №14</a>
-            </div>
-            <div class="offer">
-                <a href="#"><img class="lazy" data-src="https://cdn.budzdorov.ru/media/catalog/product/cache/1e8ef93b9b4867ab9f3538dde2cb3b8a/1/1/113044-c-0-8-9-c089a3e77f904efd2884c5ab3cdad57d3b9ebc0b_113044.jpg"></a>
-                <a href="#">Инвитро Здоровье щитовидной железы</a>
-            </div>
         </div>
 
         <div class="promos">
-            <div class="promo"> <img class="lazy" data-src="https://kazan.budzdorov.ru/img/loyalty-banners/loyalty_banner_3_1.jpg" style="width: 550px"></div>
-            <div class="promo"> <img class="lazy" data-src="https://kazan.budzdorov.ru/img/loyalty-banners/loyalty_banner_4_1.jpg" style="width: 550px"></div>
+            <div class="promo"> <img src="https://kazan.budzdorov.ru/img/loyalty-banners/loyalty_banner_3_1.jpg" style="width: 550px"></div>
+            <div class="promo"> <img src="https://kazan.budzdorov.ru/img/loyalty-banners/loyalty_banner_4_1.jpg" style="width: 550px"></div>
         </div>
     </main>
 
@@ -119,7 +52,7 @@
         <table align="center" cellpadding="5" bgcolor="#f0ffff">
             <tr>
                 <td rowspan="4">
-                    <img class="lazy" data-src="../img/pngegg%20(2).png">
+                    <img src="../img/pngegg%20(2).png">
                 </td>
                 <td > <h3>О компании</h3> </td>
                 <td > <h3>Помощь</h3> </td>
