@@ -5,12 +5,12 @@ var express = require("express"),
 // настраиваем список задач копированием
 // содержимого из файла todos.OLD.json
     ];
-app.use(express.static(__dirname));
-http.createServer(app).listen(3005);
+app.use(express.static("../Client"));
+http.createServer(app).listen(3000);
 
 // этот маршрут замещает наш файл
 // todos.json в примере из части 5
 app.get("/check", function (req, res) {
-    console.log("Hello")
-    res.json("Hello");
+    console.log("Привет мир")
+    res.json("Привет мир");
 });
