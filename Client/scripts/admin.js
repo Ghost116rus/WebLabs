@@ -1,6 +1,6 @@
-import {makeContent, makeData} from "./AdditionalFunctions.js";
+import {makeContent, makeContentAdmin, makeContentAdminSpecial, makeData} from "./AdditionalFunctions.js";
 import {Medicine} from "./Medicine.js";
-import {getMedicines, getTags} from "../http/medicineAPI.js";
+import {addNewMedicine, createTag, getMedicines, getTags, removeTag} from "../http/medicineAPI.js";
 
 
 
@@ -14,17 +14,50 @@ class AddContent{
     static special = false;
     static srcImage = "";
     static medicineDescription = "";
+    static medicineCount = "";
     static medicineName= "";
+    static NameTag = "";
+    static tags = [];
+
+    static async AddTag()
+    {
+        AddContent.NameTag = document.getElementById('tag').value;
+        await createTag(AddContent.NameTag);
+
+        $(".tabs a:first-child span").trigger("click");
+        AddContent.NameTag = "";
+    }
 
     static AddToSpecial()
     {
         AddContent.special = !AddContent.special;
     }
 
+    static Selected(e)
+    {
+        if (AddContent.tags.indexOf(e) === -1) {
+            AddContent.tags.push(e);
+        }
+    }
+
+    static async RemoveTag(e)
+    {
+        console.log(e);
+        await removeTag(e);
+
+        $(".tabs a:first-child span").trigger("click");
+    }
+
+    static RemoveTagFromArr(e)
+    {
+        AddContent.tags.splice(AddContent.tags.indexOf(e), 1);
+    }
+
     static async AddToContent()
     {
         AddContent.medicineDescription = document.getElementById('description').value;
         AddContent.medicineName = document.getElementById('nameOfMedicine').value;
+        AddContent.medicineCount = document.getElementById('count').value;
         AddContent.srcImage = document.getElementById('imgSrc').value;
 
         console.log(AddContent.special);
@@ -32,28 +65,25 @@ class AddContent{
         console.log(AddContent.medicineName);
         console.log(AddContent.srcImage);
         // создаем новый элемент списка задач
-        var newMedicine = {"name": AddContent.medicineDescription, "img":AddContent.srcImage, "isSpecial": AddContent.special};
 
-        var res = await (await fetch("http://localhost:3000/createNewMedicine", {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(newMedicine)
-            }
-        )).json()
+        var medicine = new Medicine(AddContent.medicineName, AddContent.srcImage, AddContent.tags);
 
-        var medicine = new Medicine(res.id, AddContent.medicineDescription, AddContent.srcImage, []);
+        await addNewMedicine(medicine, AddContent.medicineDescription, AddContent.medicineCount, AddContent.special);
+
         Medicines.push(medicine);
 
         if (AddContent.special)
         {
             Special.push(medicine);
         }
-
+/*
         AddContent.special = false;
         AddContent.srcImage = "";
         AddContent.medicineDescription = "";
+        AddContent.medicineName = 0;
+        AddContent.medicineCount = 0;
 
-        $(".tabs a:first-child span").trigger("click");
+        $(".tabs a:first-child span").trigger("click");*/
     }
 
 }
@@ -67,11 +97,39 @@ var main = async function (HealthObjects) {
 
     Special = result.Special;
     Medicines = result.Medicines;
+    tags = await getTags();
+
+    var myParent = document.getElementById("selectTest");
+
+
+    var array = tags.tags;
+
+
+    var selectList = document.createElement("select");
+    selectList.id = "mySelect";
+    myParent.appendChild(selectList);
+    selectList.set
+
+
+    for (var i = 0; i < array.length; i++) {
+        var option = document.createElement("option");
+        option.value = array[i].name;
+        option.text = array[i].name;
+        selectList.appendChild(option);
+    }
+
+    document.querySelector("select").addEventListener('change', function (e) {
+        AddContent.Selected(e.target.value)
+    })
 
 
     $(".tabs a span").toArray().forEach(function (element) {
+
         //создаем обработку щелчков для этого элемента
         $(element).on("click", async function () {
+
+            myParent.style.visibility='hidden';
+
             var $element = $(element),
                 $content;
             $(".tabs a span").removeClass("active");
@@ -82,17 +140,36 @@ var main = async function (HealthObjects) {
                 let offers = $('<div/>', {
                     class: 'offers',
                 }).appendTo($content);
-                makeContent(offers, Special);
+                makeContentAdminSpecial(offers, Special);
+
             } else if ($element.parent().is(":nth-child(2)")) {
                 $content = $("<div>");
                 let offers = $('<div/>', {
                     class: 'offers',
                 }).appendTo($content);
-                makeContent(offers, Medicines);
+
+                makeContentAdmin(offers, Medicines);
+
             } else if ($element.parent().is(":nth-child(3)")) {
+                myParent.style.visibility='visible';
                 $content = $("<div/>", {
                     class: 'addContent'
                 });
+
+                AddContent.tags.forEach(function (e) {
+                    var cont = $('<div/>', {
+                        class: 'offers',
+                    }).appendTo($content);
+                    $('<p/>', {
+                        class: 'tag',
+                        text: e
+                    }).appendTo(cont);
+                    $('<button/>',
+                        {
+                            class: 'tag',
+                            text: 'Удалить тег',
+                            click: () => {AddContent.RemoveTagFromArr(e)}
+                        }).appendTo(cont); })
 
                 $('<input/>').attr({
                     id: 'nameOfMedicine',
@@ -115,7 +192,16 @@ var main = async function (HealthObjects) {
                     onclick: "AddContent.AddToSpecial()"
                 }).appendTo($content);
 
+                $('<input/>').attr({
+                    id: 'count',
+                    type: 'text',
+                    name: 'img-src',
+                    class: 'myinputImg',
+                    placeholder: 'Количество'
+                }).appendTo($content);
+
                 $('<br/>', {}).appendTo($content);
+
 
                 $('<input/>').attr({
                     id: 'imgSrc',
@@ -124,6 +210,7 @@ var main = async function (HealthObjects) {
                     class: 'myinputImg',
                     placeholder: 'Путь к изображению...'
                 }).appendTo($content);
+
 
                 $('<textarea/>').attr({
                     id: 'description',
@@ -142,14 +229,25 @@ var main = async function (HealthObjects) {
 
             } else if ($element.parent().is(":nth-child(4)")) {
                 $content = $("<div>");
-                tags = await getTags();
+
                 var offers = $('<div/>', {
                     class: 'offers',
                 }).appendTo($content);
                 tags.tags.forEach(function (e) {
-                    $('<p/>', {
-                        text: e.name
+                    var cont = $('<div/>', {
+                        class: 'offers',
                     }).appendTo(offers);
+                    $('<p/>', {
+                        class: 'tag',
+                        text: e.name
+                    }).appendTo(cont);
+                    $('<button/>',
+                        {
+                            class: 'tag',
+                            text: 'Удалить тег',
+                            click: () => {AddContent.RemoveTag(e._id)}
+                        }).appendTo(cont);
+
 
                 });
             } else if ($element.parent().is(":nth-child(5)")) {
@@ -158,16 +256,17 @@ var main = async function (HealthObjects) {
                 });
 
                 $('<textarea/>').attr({
-                    id: 'description1',
+                    id: 'tag',
                     type: 'text',
                     name: 'description',
                     class: 'myinputDsc',
                     placeholder: 'Название тега'
                 }).appendTo($content);
 
-                $('<button/>',
+                let tagBtn = $('<button/>',
                     {
                         text: 'Добавить тег',
+                        click: AddContent.AddTag
                     }).appendTo($content);
 
 

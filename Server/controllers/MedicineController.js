@@ -22,7 +22,6 @@ export const getOneById = async (req, res) => {
     try {
 
         const medicineId = req.query.id;
-        console.log(medicineId)
 
         let medicine = await MedicineModel.find({_id: medicineId}).exec();
 
@@ -53,6 +52,8 @@ export const getAll = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
+        console.log(req.body);
+
         const doc = new MedicineModel({
             name: req.body.name,
             imageSrc: req.body.img,
@@ -78,8 +79,8 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const medicineId = req.body.id;
-        console.log(medicineId);
-        console.log("medicineId");
+        console.log(req.body);
+
 
         const doc = await MedicineModel.findOne({_id: medicineId})
 
@@ -97,8 +98,6 @@ export const update = async (req, res) => {
                 name: req.body.name,
                 imageSrc: req.body.img,
                 isSpecial: req.body.isSpecial,
-                description: req.body.description,
-                count: req.body.count,
                 tags: req.body.tags,
             },
         );
@@ -143,6 +142,7 @@ export const remove = (req, res) => {
 
 export const createTag = async (req, res) => {
     try {
+
         const doc = new TagModel({
             name: req.body.name,
         });
