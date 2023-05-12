@@ -1,0 +1,1 @@
+export * as MedicineController from './MedicineController.js';

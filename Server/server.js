@@ -1,4 +1,12 @@
 import express, {response} from 'express';
+import mongoose from 'mongoose';
+import {MedicineController} from './controllers/index.js'
+import {removeTag} from "./controllers/MedicineController.js";
+
+mongoose
+    .connect('mongodb://127.0.0.1/WebLabs')
+    .then(() => {   console.log('DB ok')})
+    .catch((err) => {console.log('DB error', err)});
 
 const app = express();
 
@@ -40,47 +48,21 @@ let medicines = [
         }
     ];
 
-var id = 6;
-
 app.use(express.json());
-
-
-
-
-
 
 app.use(express.static("../Client"));
 
 
+app.get("/getAll", MedicineController.getAll);
+app.get("/getById", MedicineController.getOneById);
+app.get("/tags", MedicineController.getAllTags);
 
+app.post("/createNewMedicine", MedicineController.create)
+app.post("/createNewTag", MedicineController.createTag)
 
-// этот маршрут замещает наш файл
-// todos.json в примере из части 5
-app.get("/getMedicine", function (req, res) {
-    //console.log("Привет мир")
-    res.json(medicines);
-});
-
-app.post("/todos", function (req, res) {
-// сейчас объект сохраняется в req.body
-    var newMedicine = req.body;
-    console.log(newMedicine);
-
-
-    medicines.push(
-        {
-            "id": id++,
-            "description": newMedicine.description,
-            "img" : newMedicine.img,
-            "isSpecial": newMedicine.isSpecial,
-            "tags": []
-        }
-    )
-    console.log(id);
-
-// отправляем простой объект
-    res.json({"message":"Вы размещаетесь на сервере!", "id": id});
-});
+app.patch('/updateMedicine', MedicineController.update);
+app.delete('/deleteMedicine', MedicineController.remove);
+app.delete('/deleteTag', MedicineController.removeTag);
 
 
 app.listen(3000, (err) => {
