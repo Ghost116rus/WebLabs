@@ -1,5 +1,6 @@
 import {makeContent, makeData} from "./AdditionalFunctions.js";
 import {Medicine} from "./Medicine.js";
+import {getMedicines} from "../http/medicineAPI.js";
 
 
 
@@ -173,10 +174,6 @@ var main = function (HealthObjects) {
 
 };
 
-$(document).ready(() => {
-    $.getJSON("http://localhost:3000/getMedicine", function (HealthObjects) {
-    // вызов функции main с аргументом в виде объекта toDoObjects
-        console.log(HealthObjects)
-        main(HealthObjects);
-    });
+$(document).ready( async () => {
+    main((await getMedicines()).medicines);
 });

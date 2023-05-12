@@ -10,7 +10,7 @@ export const makeContent = (Container, medicine) => {
         let medicineImage = $('<img>', {
             src: medic.imageSrc
         });
-        medicineImage.attr("data-src", medic.imageSrc);
+        medicineImage.attr("src", medic.imageSrc);
         medicineImage.appendTo(image);
 
         let tags = $('<div/>', {
@@ -26,7 +26,7 @@ export const makeContent = (Container, medicine) => {
         $('<a/>', {
             class: 'tes',
             href: "DeliveryPage.html",
-            text: medic.description
+            text: medic.name
         }).appendTo(offer);
 
     });
@@ -38,8 +38,10 @@ export const makeData = (HealthObjects) => {
     let Medicines = [];
     let tags = [];
 
+    console.log(HealthObjects);
+
     HealthObjects.forEach((e) => {
-        let medicine = new Medicine(e.id, e.description, e.img, e.tags);
+        let medicine = new Medicine(e._id, e.name, e.imageSrc, e.tags);
         Medicines.push(medicine);
 
         e.tags.forEach((tag) => {

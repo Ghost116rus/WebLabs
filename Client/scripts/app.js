@@ -4,7 +4,8 @@ import {makeContent, makeData} from "./AdditionalFunctions.js";
 
 const main = async () => {
 
-    const result = makeData(await getMedicines());
+    const result = makeData((await getMedicines()).medicines);
+
 
     makeContent(document.getElementById("special"), result.Special);
     makeContent(document.getElementById("catalog"), result.Medicines);

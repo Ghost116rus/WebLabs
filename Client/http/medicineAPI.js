@@ -1,5 +1,5 @@
 
 
 export const getMedicines = async () => {
-    return $.getJSON("http://localhost:3000/getMedicine");
+    return $.getJSON("http://localhost:3000/getAll");
 }
