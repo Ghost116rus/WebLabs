@@ -1,14 +1,12 @@
 export class Medicine{
     id;
-    description;
+    name;
     imageSrc;
     tags = [];
-    constructor(id, description, imageSrc, tags){
+    constructor(id, name, imageSrc, tags){
         this.id = id;
-        this.description = description;
+        this.name = name;
         this.imageSrc = imageSrc;
         this.tags = tags;
     }
-
-    static currentId = -1;
 }

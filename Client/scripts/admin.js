@@ -1,6 +1,6 @@
 import {makeContent, makeData} from "./AdditionalFunctions.js";
 import {Medicine} from "./Medicine.js";
-import {getMedicines} from "../http/medicineAPI.js";
+import {getMedicines, getTags} from "../http/medicineAPI.js";
 
 
 
@@ -14,6 +14,7 @@ class AddContent{
     static special = false;
     static srcImage = "";
     static medicineDescription = "";
+    static medicineName= "";
 
     static AddToSpecial()
     {
@@ -23,15 +24,17 @@ class AddContent{
     static async AddToContent()
     {
         AddContent.medicineDescription = document.getElementById('description').value;
+        AddContent.medicineName = document.getElementById('nameOfMedicine').value;
         AddContent.srcImage = document.getElementById('imgSrc').value;
 
         console.log(AddContent.special);
         console.log(AddContent.medicineDescription);
+        console.log(AddContent.medicineName);
         console.log(AddContent.srcImage);
         // создаем новый элемент списка задач
-        var newMedicine = {"description": AddContent.medicineDescription, "img":AddContent.srcImage, "isSpecial": AddContent.special};
+        var newMedicine = {"name": AddContent.medicineDescription, "img":AddContent.srcImage, "isSpecial": AddContent.special};
 
-        var res = await (await fetch("http://localhost:3000/todos", {
+        var res = await (await fetch("http://localhost:3000/createNewMedicine", {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(newMedicine)
@@ -57,20 +60,18 @@ class AddContent{
 
 
 
-var main = function (HealthObjects) {
+var main = async function (HealthObjects) {
     "use strict";
 
     const result = makeData(HealthObjects);
 
     Special = result.Special;
     Medicines = result.Medicines;
-    tags = result.tags;
 
 
     $(".tabs a span").toArray().forEach(function (element) {
         //создаем обработку щелчков для этого элемента
-        $(element).on("click", function ()
-        {
+        $(element).on("click", async function () {
             var $element = $(element),
                 $content;
             $(".tabs a span").removeClass("active");
@@ -79,20 +80,28 @@ var main = function (HealthObjects) {
             if ($element.parent().is(":nth-child(1)")) {
                 $content = $("<div>");
                 let offers = $('<div/>', {
-                    class:  'offers',
+                    class: 'offers',
                 }).appendTo($content);
                 makeContent(offers, Special);
             } else if ($element.parent().is(":nth-child(2)")) {
                 $content = $("<div>");
                 let offers = $('<div/>', {
-                    class:  'offers',
+                    class: 'offers',
                 }).appendTo($content);
                 makeContent(offers, Medicines);
-            }
-            else if ($element.parent().is(":nth-child(3)")) {
+            } else if ($element.parent().is(":nth-child(3)")) {
                 $content = $("<div/>", {
                     class: 'addContent'
                 });
+
+                $('<input/>').attr({
+                    id: 'nameOfMedicine',
+                    type: 'text',
+                    name: 'img-src',
+                    class: 'myinputImg',
+                    placeholder: 'Название'
+                }).appendTo($content);
+
 
                 $('<p/>', {
                     text: "Добавить в спец. предложения",
@@ -100,29 +109,28 @@ var main = function (HealthObjects) {
                 }).appendTo($content);
 
                 $('<input/>', {
-                    id:     'myCheckbox',
-                    type: 	'checkbox',
+                    id: 'myCheckbox',
+                    type: 'checkbox',
                     class: 'checkB',
                     onclick: "AddContent.AddToSpecial()"
                 }).appendTo($content);
 
-                $('<br/>', {
-                }).appendTo($content);
+                $('<br/>', {}).appendTo($content);
 
                 $('<input/>').attr({
-                    id:     'imgSrc',
-                    type: 	'text',
-                    name: 	'img-src',
-                    class:  'myinputImg',
-                    placeholder: 	'Путь к изображению...'
+                    id: 'imgSrc',
+                    type: 'text',
+                    name: 'img-src',
+                    class: 'myinputImg',
+                    placeholder: 'Путь к изображению...'
                 }).appendTo($content);
 
                 $('<textarea/>').attr({
-                    id:     'description',
-                    type: 	'text',
-                    name: 	'description',
-                    class:  'myinputDsc',
-                    placeholder: 	'Описание товара'
+                    id: 'description',
+                    type: 'text',
+                    name: 'description',
+                    class: 'myinputDsc',
+                    placeholder: 'Описание товара'
                 }).appendTo($content);
 
                 var mybutton = $('<button/>',
@@ -130,15 +138,17 @@ var main = function (HealthObjects) {
                         text: 'Добавить товар',
                         click: AddContent.AddToContent
                     }).appendTo($content);
-            }
-            else if ($element.parent().is(":nth-child(4)")) {
+
+
+            } else if ($element.parent().is(":nth-child(4)")) {
                 $content = $("<div>");
+                tags = await getTags();
                 var offers = $('<div/>', {
-                    class:  'offers',
+                    class: 'offers',
                 }).appendTo($content);
-                tags.forEach(function (description) {
+                tags.tags.forEach(function (e) {
                     $('<p/>', {
-                        text: description
+                        text: e.name
                     }).appendTo(offers);
 
                 });
@@ -148,11 +158,11 @@ var main = function (HealthObjects) {
                 });
 
                 $('<textarea/>').attr({
-                    id:     'description1',
-                    type: 	'text',
-                    name: 	'description',
-                    class:  'myinputDsc',
-                    placeholder: 	'Название тега'
+                    id: 'description1',
+                    type: 'text',
+                    name: 'description',
+                    class: 'myinputDsc',
+                    placeholder: 'Название тега'
                 }).appendTo($content);
 
                 $('<button/>',
@@ -162,7 +172,6 @@ var main = function (HealthObjects) {
 
 
             }
-
 
 
             $("main .content").append($content);
@@ -175,5 +184,5 @@ var main = function (HealthObjects) {
 };
 
 $(document).ready( async () => {
-    main((await getMedicines()).medicines);
+    await main((await getMedicines()).medicines);
 });

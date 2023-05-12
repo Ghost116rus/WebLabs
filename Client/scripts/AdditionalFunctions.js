@@ -25,7 +25,7 @@ export const makeContent = (Container, medicine) => {
         })
         $('<a/>', {
             class: 'tes',
-            href: "DeliveryPage.html",
+            href: "/Pages/MedicinePage.html?" + medic.id,
             text: medic.name
         }).appendTo(offer);
 
@@ -36,20 +36,13 @@ export const makeData = (HealthObjects) => {
 
     let Special = [];
     let Medicines = [];
-    let tags = [];
 
     console.log(HealthObjects);
 
     HealthObjects.forEach((e) => {
+        console.log(e.name);
         let medicine = new Medicine(e._id, e.name, e.imageSrc, e.tags);
         Medicines.push(medicine);
-
-        e.tags.forEach((tag) => {
-            if (tags.indexOf(tag) === -1)
-            {
-                tags.push(tag);
-            }
-        })
 
         if (e.isSpecial)
         {
@@ -57,5 +50,5 @@ export const makeData = (HealthObjects) => {
         }
     });
 
-    return {"Medicines": Medicines, "Special": Special, "tags": tags}
+    return {"Medicines": Medicines, "Special": Special}
 }

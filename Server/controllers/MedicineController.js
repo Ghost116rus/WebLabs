@@ -21,10 +21,12 @@ function GetLightDataAboutMedicine (medicinesData) {
 export const getOneById = async (req, res) => {
     try {
 
-        const medicineId = req.body.id;
+        const medicineId = req.query.id;
+        console.log(medicineId)
+
         let medicine = await MedicineModel.find({_id: medicineId}).exec();
 
-        return res.json({medicine: medicine});
+        return res.json(medicine);
     } catch (err) {
         console.log(err);
         res.status(500).json({
